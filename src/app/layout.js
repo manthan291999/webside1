@@ -6,6 +6,8 @@ import ThreeBackground from "../components/ThreeBackground";
 import Cursor from "../components/Cursor";
 import AIChatbot from "../components/AIChatbot";
 
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const orbitron = Orbitron({ subsets: ["latin"], variable: "--font-orbitron" });
 
@@ -37,6 +39,7 @@ export default function RootLayout({ children }) {
         <AIChatbot />
         <main className="relative z-10">
           {children}
+          <SpeedInsights />
         </main>
       </body>
     </html>

@@ -9,6 +9,7 @@ export default function Skills() {
         { name: "LANGUAGES", icon: <Code2 />, items: siteConfig.skills.languages },
         { name: "FRAMEWORKS", icon: <Cpu />, items: siteConfig.skills.frameworks },
         { name: "TOOLS", icon: <Globe />, items: siteConfig.skills.tools },
+        { name: "DOMAINS", icon: <Cpu />, items: siteConfig.skills.domains },
     ];
 
     return (

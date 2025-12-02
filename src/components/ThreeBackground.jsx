@@ -35,12 +35,25 @@ function ParticleField(props) {
     );
 }
 
+function MovingStars() {
+    const ref = useRef();
+    useFrame((state, delta) => {
+        ref.current.rotation.x -= delta / 10;
+        ref.current.rotation.y -= delta / 15;
+    });
+    return (
+        <group ref={ref}>
+            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+        </group>
+    );
+}
+
 export default function ThreeBackground() {
     return (
         <div className="fixed inset-0 z-0 bg-black">
             <Canvas camera={{ position: [0, 0, 1] }}>
                 <ParticleField />
-                <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+                <MovingStars />
             </Canvas>
         </div>
     );

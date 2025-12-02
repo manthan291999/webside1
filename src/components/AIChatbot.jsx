@@ -68,26 +68,54 @@ export default function AIChatbot() {
         window.speechSynthesis.speak(utterance);
     };
 
+    const [conversationState, setConversationState] = useState("idle"); // idle, awaiting_resume_version
+
     const generateResponse = (query) => {
         const lowerQuery = query.toLowerCase();
 
+        // ── Resume Flow State Machine ────────────────────────
+        if (conversationState === "awaiting_resume_version") {
+            if (lowerQuery.includes("uk") || lowerQuery.includes("united kingdom")) {
+                setConversationState("idle");
+                return "Here is the UK version of Manthan's Resume: /Manthan_Mittal_Resume_UK.pdf";
+            }
+            if (lowerQuery.includes("india")) {
+                setConversationState("idle");
+                return "Here is the India version of Manthan's Resume: /Manthan_Mittal_Resume_India.pdf";
+            }
+            return "Please specify which version you would like: United Kingdom or India?";
+        }
+
+        // ── Trigger Resume Flow ──────────────────────────────
+        if (lowerQuery.includes("resume") || lowerQuery.includes("cv") || lowerQuery.includes("download") || lowerQuery.includes("profile")) {
+            setConversationState("awaiting_resume_version");
+            return "I have two versions of the resume available. Would you like the United Kingdom version or the India version?";
+        }
+
+        // ── General Knowledge Base ───────────────────────────
         if (lowerQuery.includes("skill") || lowerQuery.includes("stack") || lowerQuery.includes("tech")) {
-            return `Manthan is proficient in ${siteConfig.skills.languages.join(", ")}, and frameworks like ${siteConfig.skills.frameworks.join(", ")}.`;
+            return "Manthan's key tech stack includes Python, PyTorch, React, Node.js, MongoDB, AWS, and Oracle OCI.";
         }
         if (lowerQuery.includes("project") || lowerQuery.includes("work")) {
-            return `He has worked on projects like ${siteConfig.projects.map(p => p.title).join(", ")}. Check out the Projects section for more details.`;
+            return "Key projects include Narrative-to-Clip (Text-to-Video AI), DocInsight (RAG System), and Web Task Autopilot (Autonomous Agents).";
+        }
+        if (lowerQuery.includes("education") || lowerQuery.includes("study") || lowerQuery.includes("degree")) {
+            return "Manthan holds an MSc in Artificial Intelligence from the University of Essex (UK) and a BE in Information Technology from Ahmedabad Institute of Technology (India).";
         }
         if (lowerQuery.includes("contact") || lowerQuery.includes("email") || lowerQuery.includes("hire")) {
-            return `You can reach him at ${siteConfig.email} or connect on LinkedIn.`;
+            return "You can reach him at manthanmittal93@gmail.com.";
         }
         if (lowerQuery.includes("experience") || lowerQuery.includes("job")) {
             return "He has experience as an AI Research Intern at DeepVision Labs and as a Full-Stack Engineer at Roxigym.";
         }
+        if (lowerQuery.includes("focus") || lowerQuery.includes("doing now")) {
+            return "Manthan is currently focused on AI, Machine Learning, and Full Stack Development.";
+        }
         if (lowerQuery.includes("hello") || lowerQuery.includes("hi")) {
-            return "Hello! How can I assist you today?";
+            return "Hello! I am Manthan's AI Assistant. Ask me about his skills, projects, or experience.";
         }
 
-        return "I'm not sure about that, but you can download his resume for more detailed information.";
+        return "I'm not sure about that. You can ask about my skills, projects, education, or ask to download my resume.";
     };
 
     const handleSend = async (text = input) => {
@@ -101,6 +129,10 @@ export default function AIChatbot() {
         // Simulate AI delay
         setTimeout(() => {
             const responseText = generateResponse(userMessage.content);
+
+            // Check if response contains a link to make it clickable (basic implementation)
+            // For now, we just return text, but we could enhance this to render links
+
             const aiMessage = { role: "assistant", content: responseText };
             setMessages(prev => [...prev, aiMessage]);
             setIsTyping(false);

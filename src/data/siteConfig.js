@@ -28,21 +28,20 @@ export const siteConfig = {
 
     // ── About ────────────────────────────────────────────
     about: [
-        "I am an AI Engineer and Full-Stack Developer based in Ahmedabad, India. With a strong foundation in both software engineering and artificial intelligence, I specialize in building intelligent web applications that solve real-world problems.",
-        "My journey started with a B.E. in Information Technology, followed by an M.Sc. in Artificial Intelligence where I researched Generative AI and Computer Vision. I have hands-on experience building autonomous agents, RAG systems, and scalable full-stack platforms.",
-        "I am particularly passionate about Large Language Models (LLMs) and their application in automating complex workflows. My thesis on Zero-Shot Text-to-Video Generation explored the frontiers of multimodal AI, and I continue to stay at the bleeding edge of this rapidly evolving field.",
-        "When I'm not coding, I'm likely exploring the latest in AI research, contributing to open source, or writing about technology."
+        "I exist at the intersection of scalable engineering and bleeding-edge AI. As a Full-Stack AI Engineer, I don’t just train models—I build autonomous systems that solve hard problems. My technical philosophy is grounded in the belief that true innovation happens only when robust software engineering practices are fused with advanced artificial intelligence.",
+        "My background is rigorous and diverse, spanning from optimizing mobile architectures for speed to researching complex Deep Learning systems during my M.Sc. in the UK. This academic focus culminated in my thesis on \"Random MAC Optimization,\" where I investigated novel strategies to push the boundaries of algorithmic efficiency and model convergence in resource-constrained environments.",
+        "Beyond theory, my work is backed by data and community impact. I have developed open-source tools used by thousands of developers and architected production-grade RAG pipelines. Whether it involves deploying large-scale web agents or optimizing neural networks for robotics, I am dedicated to building software that thinks."
     ],
 
     // ── Education ───────────────────────────────────────
     education: [
         {
             degree: "M.Sc. in Artificial Intelligence",
-            institution: "University of Essex",
+            institution: "University of Essex | Colchester, United Kingdom",
             year: "2022 – 2024",
             details: [
-                "Specialised in Machine Learning, NLP, and Computer Vision.",
-                "Thesis: “Zero‑Shot Text‑to‑Video Generation using Diffusion Models”.",
+                "Specializations: Deep Learning, Robotics, Computer Vision, Natural Language Processing (NLP), and Machine Learning.",
+                "Master’s Thesis: “Random MAC Optimization” – Investigated optimization algorithms to enhance model convergence and efficiency.",
             ],
         },
         {
@@ -61,49 +60,52 @@ export const siteConfig = {
         {
             role: "AI Research Intern",
             company: "DeepVision Labs",
-            period: "Jun 2023 – Aug 2023",
-            location: "Remote",
+            period: "Jun 2024 – Aug 2024",
+            location: "United Kingdom (Remote)",
             points: [
-                "Developed a prototype for a Text‑to‑Video generator using Stable Diffusion.",
-                "Implemented a custom CLIP‑based similarity scoring pipeline.",
-                "Published a technical blog post that received 5k+ reads.",
+                "Engineered a Text-to-Video generation prototype leveraging Stable Diffusion and PyTorch, enabling high-fidelity video synthesis from natural language prompts.",
+                "Designed and implemented a custom CLIP-based similarity scoring pipeline to quantitatively evaluate semantic alignment between input prompts and generated video frames.",
+                "Authored a technical retrospective on generative AI challenges; the article was featured on the company blog and garnered 5,000+ reads.",
             ],
         },
         {
-            role: "Full‑Stack Engineer Intern",
-            company: "Roxigym",
-            period: "Jan 2023 – Apr 2023",
+            role: "Android Developer Intern",
+            company: "Silver Touch Ltd",
+            period: "Jan 2022 – Apr 2022",
             location: "Ahmedabad, India",
             points: [
-                "Built RESTful APIs with Node.js/Express and integrated Stripe payments.",
-                "Designed responsive admin dashboard with React + Tailwind.",
-                "Reduced page‑load time by 35 % through lazy loading and code‑splitting.",
+                "Developed scalable mobile applications using Flutter and Kotlin, implementing Clean Architecture principles to ensure code maintainability.",
+                "Integrated RESTful APIs and Firebase Authentication to support real-time data synchronization and secure user management.",
+                "Optimized application performance by implementing lazy loading and code-splitting, resulting in a 35% reduction in page-load time.",
             ],
         },
         {
-            role: "Software Engineer",
-            company: "Freelance",
+            role: "Software Engineer (Freelance)",
+            company: "Self-Employed",
             period: "2022 – Present",
             location: "Remote",
             points: [
-                "Delivered end‑to‑end web‑automation agents (Web Task Autopilot).",
-                "Created DocInsight – a Retrieval‑Augmented Generation Q&A system.",
-                "Open‑sourced multiple libraries on GitHub (⭐ 2.5k total).",
+                "Web Task Autopilot: Architected end-to-end web automation agents using Selenium and Python to streamline repetitive browser-based workflows.",
+                "DocInsight (RAG System): Built a Retrieval-Augmented Generation Q&A system using LangChain and OpenAI to allow users to query complex documentation naturally.",
+                "Open Source Leadership: Maintained multiple open-source libraries, achieving a cumulative 2.5k+ stars on GitHub and fostering a community of active contributors.",
             ],
         },
     ],
 
     // ── Skills ───────────────────────────────────────────
     skills: {
-        languages: ["Python", "JavaScript/TypeScript", "C++", "Java"],
+        languages: ["Python", "JavaScript/TypeScript", "C++", "Java", "SQL"],
         frameworks: [
             "React", "Next.js", "Node.js/Express", "Tailwind CSS",
-            "Framer Motion", "TensorFlow", "PyTorch"
+            "Framer Motion", "TensorFlow", "PyTorch", "Scikit-learn", "XGBoost", "ROS2"
         ],
         tools: [
             "Git", "Docker", "Vercel", "Netlify", "AWS (S3, Lambda)",
-            "Jest", "Cypress"
+            "Jest", "Cypress", "Gazebo", "Jupyter", "MATLAB"
         ],
+        domains: [
+            "Robotics", "Generative AI", "Computer Vision", "NLP", "Deep Learning"
+        ]
     },
 
     // ── Projects ────────────────────────────────────────
@@ -173,6 +175,42 @@ export const siteConfig = {
             ],
             github: "https://github.com/manthanmittal/roxigym",
             demo: "https://roxigym.vercel.app"
+        },
+        {
+            title: "Autonomous Hybrid Navigation System using ROS2",
+            description: "A hybrid autonomous navigation framework for mobile robots that intelligently switches between PID-based wall following and Fuzzy Logic obstacle avoidance based on real-time LIDAR sensor data.",
+            techStack: ["ROS2", "Python", "LIDAR", "PID Control", "Fuzzy Logic", "Gazebo", "Robotics"],
+            highlights: [
+                "Implemented PID Controller for precise wall following and edge tracking.",
+                "Developed Fuzzy Logic Controller for smooth obstacle avoidance.",
+                "Designed Hybrid Selector to dynamically switch strategies based on LIDAR data."
+            ],
+            github: "#",
+            demo: "#"
+        },
+        {
+            title: "Rossmann Store Sales Forecasting",
+            description: "Forecasted daily sales for 1,115 stores using a hybrid approach of Deep Learning (LSTM, RNN) and Ensemble Methods (XGBoost, Random Forest).",
+            techStack: ["Python", "LSTM", "RNN", "XGBoost", "Random Forest", "Time-Series"],
+            highlights: [
+                "Engineered complex temporal features and handled seasonality to reduce RMSPE.",
+                "Conducted comparative analysis of Entity Embeddings in Neural Networks.",
+                "Combined Deep Learning and Ensemble Methods for robust forecasting."
+            ],
+            github: "#",
+            demo: "#"
+        },
+        {
+            title: "Feedforward Neural Network Implementation for Robotic Kinematics Prediction",
+            description: "Implemented a Feedforward Neural Network to predict robotic arm kinematics, mapping joint angles to end-effector positions.",
+            techStack: ["Python", "PyTorch", "Neural Networks", "Robotics", "Kinematics"],
+            highlights: [
+                "Trained FNN to solve forward kinematics problems with high accuracy.",
+                "Optimized model architecture for real-time inference in robotic control loops.",
+                "Analyzed prediction errors across the robot's workspace."
+            ],
+            github: "#",
+            demo: "#"
         }
     ],
 

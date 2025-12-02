@@ -1,13 +1,27 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { siteConfig } from "../data/siteConfig";
 import { ArrowRight, Download, Terminal } from "lucide-react";
 import ResumeGate from "./ResumeGate";
 
 export default function Hero() {
     const [isResumeOpen, setIsResumeOpen] = useState(false);
+    const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setShowScrollIndicator(false);
+            } else {
+                setShowScrollIndicator(true);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -64,6 +78,14 @@ export default function Hero() {
                         >
                             DOWNLOAD DATA <Download size={20} />
                         </button>
+                        <a
+                            href={siteConfig.resumeUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-8 py-4 bg-transparent border border-white/20 text-white rounded-none font-bold hover:bg-white/10 hover:border-purple hover:text-purple transition-all duration-300 flex items-center gap-2 backdrop-blur-sm"
+                        >
+                            VIEW RESUME <Terminal size={20} />
+                        </a>
                     </div>
                 </motion.div>
             </div>
@@ -71,8 +93,8 @@ export default function Hero() {
             {/* Scroll Indicator */}
             <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 1 }}
+                animate={{ opacity: showScrollIndicator ? 1 : 0 }}
+                transition={{ duration: 0.5 }}
                 className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500"
             >
                 <span className="text-xs font-mono">SCROLL_DOWN</span>
