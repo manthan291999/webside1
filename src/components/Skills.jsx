@@ -6,8 +6,8 @@ import { siteConfig } from "../data/siteConfig";
 import { Cpu, Code2, Globe, Brain } from "lucide-react";
 
 // Dynamically import 3D component
-const SkillSpheres = dynamic(
-    () => import("./canvas/SkillSpheres"),
+const NeuralNetwork3D = dynamic(
+    () => import("./canvas/NeuralNetwork3D"),
     {
         ssr: false,
         loading: () => (
@@ -73,7 +73,7 @@ export default function Skills() {
                             transition={{ duration: 0.6 }}
                             className="relative order-2 lg:order-1"
                         >
-                            <SkillSpheres />
+                            <NeuralNetwork3D />
 
                             {/* Decorative Elements */}
                             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-xs font-mono text-gray-600 tracking-widest">

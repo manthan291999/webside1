@@ -1,180 +1,185 @@
 "use client";
 
-import { useRef, useState, useEffect, Suspense } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
-import { useGLTF, Float, MeshDistortMaterial } from "@react-three/drei";
+import { useRef, useEffect, useMemo } from "react";
+import { useFrame, useLoader } from "@react-three/fiber";
+import { useFBX, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-// Fallback Geometry - Futuristic floating shapes when no model is loaded
-const FallbackGeometry = ({ isMobile }) => {
-    const groupRef = useRef();
-    const mainRef = useRef();
-    const ring1Ref = useRef();
+// Floating Sci-Fi Pedestal Component
+const FloatingPedestal = ({ position = [0, 0, 0] }) => {
+    const ringRef = useRef();
     const ring2Ref = useRef();
 
-    useFrame((state, delta) => {
-        if (groupRef.current) {
-            groupRef.current.rotation.y += delta * 0.2;
-        }
-        if (mainRef.current) {
-            mainRef.current.rotation.x += delta * 0.3;
-            mainRef.current.rotation.z += delta * 0.1;
-        }
-        if (ring1Ref.current) {
-            ring1Ref.current.rotation.x += delta * 0.5;
+    useFrame((state) => {
+        const t = state.clock.elapsedTime;
+        // Rotate the rings
+        if (ringRef.current) {
+            ringRef.current.rotation.z = t * 0.5;
         }
         if (ring2Ref.current) {
-            ring2Ref.current.rotation.z += delta * 0.3;
+            ring2Ref.current.rotation.z = -t * 0.3;
         }
     });
 
-    const scale = isMobile ? 0.6 : 1;
-
     return (
-        <group ref={groupRef} scale={scale}>
-            {/* Central Icosahedron */}
-            <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-                <mesh ref={mainRef} position={[0, 0, 0]}>
-                    <icosahedronGeometry args={[1.2, 1]} />
-                    <MeshDistortMaterial
-                        color="#00f3ff"
-                        attach="material"
-                        distort={0.3}
-                        speed={2}
-                        roughness={0.2}
-                        metalness={0.8}
-                        emissive="#00f3ff"
-                        emissiveIntensity={0.3}
-                    />
+        <group position={position}>
+            {/* Main circular platform - flat disc */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]}>
+                <cylinderGeometry args={[1.5, 1.5, 0.08, 64]} />
+                <meshStandardMaterial
+                    color="#0a0a18"
+                    metalness={0.95}
+                    roughness={0.1}
+                />
+            </mesh>
+
+            {/* Top glowing edge */}
+            <mesh position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <ringGeometry args={[1.4, 1.5, 64]} />
+                <meshBasicMaterial color="#00f3ff" transparent opacity={0.9} side={THREE.DoubleSide} />
+            </mesh>
+
+            {/* Inner ring pattern */}
+            <mesh position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <ringGeometry args={[0.9, 1.0, 64]} />
+                <meshBasicMaterial color="#bc13fe" transparent opacity={0.6} side={THREE.DoubleSide} />
+            </mesh>
+
+            {/* Center glow */}
+            <mesh position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <circleGeometry args={[0.5, 32]} />
+                <meshBasicMaterial color="#00f3ff" transparent opacity={0.4} side={THREE.DoubleSide} />
+            </mesh>
+
+            {/* Outer floating ring 1 */}
+            <mesh ref={ringRef} position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <torusGeometry args={[1.8, 0.02, 16, 64]} />
+                <meshBasicMaterial color="#00f3ff" transparent opacity={0.8} />
+            </mesh>
+
+            {/* Outer floating ring 2 */}
+            <mesh ref={ring2Ref} position={[0, -0.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <torusGeometry args={[2.0, 0.015, 16, 64]} />
+                <meshBasicMaterial color="#bc13fe" transparent opacity={0.6} />
+            </mesh>
+
+            {/* Grid pattern rings */}
+            {[0.3, 0.6, 1.2].map((r, i) => (
+                <mesh key={i} position={[0, 0.051, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                    <ringGeometry args={[r, r + 0.02, 64]} />
+                    <meshBasicMaterial color="#00f3ff" transparent opacity={0.2} side={THREE.DoubleSide} />
                 </mesh>
-            </Float>
-
-            {/* Orbiting Ring 1 */}
-            <mesh ref={ring1Ref} position={[0, 0, 0]}>
-                <torusGeometry args={[2, 0.02, 16, 100]} />
-                <meshStandardMaterial
-                    color="#bc13fe"
-                    emissive="#bc13fe"
-                    emissiveIntensity={0.5}
-                    transparent
-                    opacity={0.8}
-                />
-            </mesh>
-
-            {/* Orbiting Ring 2 */}
-            <mesh ref={ring2Ref} position={[0, 0, 0]} rotation={[Math.PI / 3, 0, 0]}>
-                <torusGeometry args={[2.5, 0.015, 16, 100]} />
-                <meshStandardMaterial
-                    color="#00f3ff"
-                    emissive="#00f3ff"
-                    emissiveIntensity={0.5}
-                    transparent
-                    opacity={0.6}
-                />
-            </mesh>
-
-            {/* Floating Particles/Small Spheres */}
-            {[...Array(8)].map((_, i) => {
-                const angle = (i / 8) * Math.PI * 2;
-                const radius = 1.8;
-                return (
-                    <Float key={i} speed={1.5 + i * 0.2} floatIntensity={0.5}>
-                        <mesh
-                            position={[
-                                Math.cos(angle) * radius,
-                                Math.sin(angle) * 0.5,
-                                Math.sin(angle) * radius,
-                            ]}
-                        >
-                            <sphereGeometry args={[0.08, 16, 16]} />
-                            <meshStandardMaterial
-                                color={i % 2 === 0 ? "#00f3ff" : "#bc13fe"}
-                                emissive={i % 2 === 0 ? "#00f3ff" : "#bc13fe"}
-                                emissiveIntensity={1}
-                            />
-                        </mesh>
-                    </Float>
-                );
-            })}
-
-            {/* Glowing Core */}
-            <mesh position={[0, 0, 0]}>
-                <sphereGeometry args={[0.5, 32, 32]} />
-                <meshStandardMaterial
-                    color="#ffffff"
-                    emissive="#00f3ff"
-                    emissiveIntensity={0.8}
-                    transparent
-                    opacity={0.3}
-                />
-            </mesh>
+            ))}
         </group>
     );
 };
 
-// Main Computer Model Component
-const Computers = ({ isMobile }) => {
-    const [modelLoaded, setModelLoaded] = useState(false);
-    const [modelError, setModelError] = useState(false);
+// Robot Model Component
+const RobotModel = ({ isMobile }) => {
+    const groupRef = useRef();
+    const mixerRef = useRef();
 
-    // Try to load the GLTF model
+    // Load the FBX model
+    const fbx = useFBX("/source/Orange black sci fi unit2 rigged and animated.fbx");
+
+    // Load textures using useLoader for proper texture loading
+    const [
+        bodyDiffuse,
+        bodyNormal,
+        bodyMetallic,
+        bodyRoughness,
+        matDiffuse,
+        matNormal,
+        matMetallic,
+        matRoughness
+    ] = useLoader(THREE.TextureLoader, [
+        "/textures/Body3_Diffuse.png",
+        "/textures/Body3_Normal.png",
+        "/textures/Body3_metallic.png",
+        "/textures/Body3_roughness.png",
+        "/textures/material_0_Merged0_LOD0_Bake_Diffuse.png",
+        "/textures/material_0_Merged0_LOD0_Bake_Normal.png",
+        "/textures/material_0_Merged0_LOD0_Bake_metallic.png",
+        "/textures/material_0_Merged0_LOD0_Bake_roughness.png",
+    ]);
+
+    // Set up animations and apply textures
     useEffect(() => {
-        // Check if model exists by attempting to load it
-        const checkModel = async () => {
-            try {
-                const response = await fetch("/models/desktop_pc/scene.gltf", { method: "HEAD" });
-                if (response.ok) {
-                    setModelLoaded(true);
-                } else {
-                    setModelError(true);
-                }
-            } catch {
-                setModelError(true);
+        // Set up animations
+        if (fbx.animations && fbx.animations.length > 0) {
+            mixerRef.current = new THREE.AnimationMixer(fbx);
+            const action = mixerRef.current.clipAction(fbx.animations[0]);
+            action.play();
+        }
+
+        // Configure textures
+        [bodyDiffuse, matDiffuse].forEach(tex => {
+            tex.colorSpace = THREE.SRGBColorSpace;
+        });
+
+        // Apply materials to the model
+        fbx.traverse((child) => {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+
+                // Determine which texture set to use
+                const meshName = child.name.toLowerCase();
+                const isBody = meshName.includes("body");
+
+                // Create PBR material with loaded textures
+                const newMaterial = new THREE.MeshStandardMaterial({
+                    map: isBody ? bodyDiffuse : matDiffuse,
+                    normalMap: isBody ? bodyNormal : matNormal,
+                    metalnessMap: isBody ? bodyMetallic : matMetallic,
+                    roughnessMap: isBody ? bodyRoughness : matRoughness,
+                    metalness: 1.0,
+                    roughness: 1.0,
+                    envMapIntensity: 2.0,
+                });
+
+                child.material = newMaterial;
             }
-        };
-        checkModel();
-    }, []);
+        });
+    }, [fbx, bodyDiffuse, bodyNormal, bodyMetallic, bodyRoughness, matDiffuse, matNormal, matMetallic, matRoughness]);
 
-    // If model failed to load or doesn't exist, show fallback
-    if (modelError || !modelLoaded) {
-        return <FallbackGeometry isMobile={isMobile} />;
-    }
-
-    // This would load the actual model if it exists
-    return <ComputerModel isMobile={isMobile} />;
-};
-
-// Actual GLTF Model Component
-const ComputerModel = ({ isMobile }) => {
-    const { scene } = useGLTF("/models/desktop_pc/scene.gltf");
-    const meshRef = useRef();
-
-    useFrame((state) => {
-        if (meshRef.current) {
-            meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
+    // Animation loop
+    useFrame((state, delta) => {
+        // Update FBX animations
+        if (mixerRef.current) {
+            mixerRef.current.update(delta);
+        }
+        // 360° turntable rotation
+        if (groupRef.current) {
+            groupRef.current.rotation.y += delta * 0.3;
         }
     });
 
+    // Scale and position - FBX models often need rotation adjustment
+    const scale = isMobile ? 0.015 : 0.022;
+
     return (
-        <mesh ref={meshRef}>
-            <hemisphereLight intensity={0.15} groundColor="black" />
-            <spotLight
-                position={[-20, 50, 10]}
-                angle={0.12}
-                penumbra={1}
-                intensity={1}
-                castShadow
-                shadow-mapSize={1024}
-            />
-            <pointLight intensity={1} color="#00f3ff" position={[0, 2, 2]} />
-            <pointLight intensity={0.5} color="#bc13fe" position={[-2, 1, -1]} />
+        <group ref={groupRef}>
+            {/* Robot Model - rotated to stand upright */}
             <primitive
-                object={scene}
-                scale={isMobile ? 0.5 : 0.75}
-                position={isMobile ? [0, -2.5, -1.5] : [0, -3.25, -1.5]}
-                rotation={[-0.01, -0.2, -0.1]}
+                object={fbx}
+                scale={scale}
+                position={isMobile ? [0, -0.8, 0] : [0, -1, 0]}
+                rotation={[-Math.PI / 2, 0, 0]} // Rotate 90 degrees on X to stand upright
             />
-        </mesh>
+
+            {/* Floating Pedestal underneath */}
+            <FloatingPedestal position={isMobile ? [0, -1.8, 0] : [0, -2.2, 0]} />
+        </group>
+    );
+};
+
+// Main Computers Component
+const Computers = ({ isMobile }) => {
+    return (
+        <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.2}>
+            <RobotModel isMobile={isMobile} />
+        </Float>
     );
 };
 

@@ -1,12 +1,22 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { siteConfig } from "../data/siteConfig";
 import ProjectCard from "./ProjectCard";
 
+// Dynamically import 3D background
+const ProjectsBackground3D = dynamic(
+    () => import("./canvas/ProjectsBackground3D"),
+    { ssr: false, loading: () => null }
+);
+
 export default function Projects() {
     return (
-        <section id="projects" className="py-24 relative z-10">
-            <div className="max-w-6xl mx-auto px-4">
+        <section id="projects" className="py-24 relative z-10 overflow-hidden">
+            {/* 3D Background */}
+            <ProjectsBackground3D />
+
+            <div className="max-w-6xl mx-auto px-4 relative z-10">
                 <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 font-orbitron">
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan to-purple">
                         INNOVATIONS

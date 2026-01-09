@@ -106,7 +106,7 @@ export default function AIChatbot() {
             return "You can reach him at manthanmittal93@gmail.com.";
         }
         if (lowerQuery.includes("experience") || lowerQuery.includes("job")) {
-            return "He has experience as an AI Research Intern at DeepVision Labs and as a Full-Stack Engineer at Roxigym.";
+            return "He is currently working as an AI & Data Analytics Intern at KM Steel, and has prior experience as an AI Research Intern at DeepVision Labs and Android Development at Silver Touch Technologies.";
         }
         if (lowerQuery.includes("focus") || lowerQuery.includes("doing now")) {
             return "Manthan is currently focused on AI, Machine Learning, and Full Stack Development.";

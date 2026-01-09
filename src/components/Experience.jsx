@@ -1,12 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import { siteConfig } from "../data/siteConfig";
 import { Briefcase, Calendar, MapPin, GraduationCap } from "lucide-react";
 
+// Dynamically import 3D background
+const TimelineBackground3D = dynamic(
+    () => import("./canvas/TimelineBackground3D"),
+    { ssr: false, loading: () => null }
+);
+
 export default function Experience() {
     return (
-        <section id="experience" className="py-24 relative z-10">
+        <section id="experience" className="py-24 relative z-10 overflow-hidden">
+            {/* 3D Background */}
+            <TimelineBackground3D />
             <div className="max-w-5xl mx-auto px-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-center mb-20 font-orbitron">
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan to-purple">

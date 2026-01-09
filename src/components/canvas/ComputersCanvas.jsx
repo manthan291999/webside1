@@ -37,36 +37,42 @@ const ComputersCanvas = () => {
             className="!absolute inset-0"
         >
             <Suspense fallback={<CanvasLoader />}>
-                {/* Lighting Setup */}
-                <hemisphereLight intensity={0.15} groundColor="black" />
+                {/* Lighting Setup - Bright enough to show textures */}
+                <hemisphereLight intensity={0.8} groundColor="#0a0a15" />
 
-                {/* Main Spotlight */}
-                <spotLight
-                    position={[-20, 50, 10]}
-                    angle={0.12}
-                    penumbra={1}
-                    intensity={1}
+                {/* Main Key Light - Bright white */}
+                <directionalLight
+                    position={[5, 10, 5]}
+                    intensity={2}
+                    color="#ffffff"
                     castShadow
-                    shadow-mapSize={1024}
+                />
+
+                {/* Fill Light */}
+                <directionalLight
+                    position={[-5, 5, -5]}
+                    intensity={1}
                     color="#ffffff"
                 />
 
-                {/* Cyan Accent Light */}
+                {/* Cyan Accent Light - Rim light effect */}
                 <pointLight
-                    position={[10, 10, 10]}
-                    intensity={0.5}
+                    position={[5, 5, 5]}
+                    intensity={2}
                     color="#00f3ff"
+                    distance={20}
                 />
 
-                {/* Purple Accent Light */}
+                {/* Purple Accent Light - Rim light effect */}
                 <pointLight
-                    position={[-10, -10, -5]}
-                    intensity={0.3}
+                    position={[-5, 3, -3]}
+                    intensity={1.5}
                     color="#bc13fe"
+                    distance={15}
                 />
 
-                {/* Ambient Fill */}
-                <ambientLight intensity={0.1} />
+                {/* Ambient Fill - Ensure nothing is pure black */}
+                <ambientLight intensity={0.5} />
 
                 {/* Main 3D Model */}
                 <Computers isMobile={isMobile} />

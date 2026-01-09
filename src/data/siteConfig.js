@@ -58,9 +58,22 @@ export const siteConfig = {
     // ── Experience (Timeline) ───────────────────────────
     experience: [
         {
+            role: "AI & Data Analytics Intern",
+            company: "KM Steel",
+            period: "Dec 2024 – Present",
+            location: "Remote (UK–India)",
+            points: [
+                "Conducted data analysis and applied machine learning techniques to support business decision-making and process optimisation for an India-based client while working remotely from the UK.",
+                "Built and evaluated predictive models using Python, scikit-learn, Pandas, and NumPy for forecasting and performance insights.",
+                "Cleaned and transformed large datasets, improving data quality and model accuracy.",
+                "Created dashboards and visual reports for management using business intelligence tools.",
+                "Collaborated with engineering and operations teams to deploy AI-driven, data-informed solutions across business functions.",
+            ],
+        },
+        {
             role: "AI Research Intern",
             company: "DeepVision Labs",
-            period: "Jun 2024 – Aug 2024",
+            period: "Jun 2024 – Nov 2024",
             location: "United Kingdom (Remote)",
             points: [
                 "Engineered a Text-to-Video generation prototype leveraging Stable Diffusion and PyTorch, enabling high-fidelity video synthesis from natural language prompts.",
@@ -69,14 +82,24 @@ export const siteConfig = {
             ],
         },
         {
-            role: "Android Developer Intern",
-            company: "Silver Touch Ltd",
+            role: "Android Development Intern",
+            company: "Silver Touch Technologies Ltd.",
             period: "Jan 2022 – Apr 2022",
-            location: "Ahmedabad, India",
+            location: "Ahmedabad, GJ",
             points: [
-                "Developed scalable mobile applications using Flutter and Kotlin, implementing Clean Architecture principles to ensure code maintainability.",
-                "Integrated RESTful APIs and Firebase Authentication to support real-time data synchronization and secure user management.",
-                "Optimized application performance by implementing lazy loading and code-splitting, resulting in a 35% reduction in page-load time.",
+                "Developed Chat-APP, a real-time Android messaging app.",
+                "Built backend using Firebase + Express.js.",
+                "Implemented real-time sync and user authentication in Java + Android SDK.",
+            ],
+        },
+        {
+            role: "Python Programming Intern",
+            company: "CAD DESK",
+            period: "June 2021 – July 2021",
+            location: "Jaipur, RJ",
+            points: [
+                "Completed a 30-day intensive internship focused on Python development.",
+                "Worked in structured environment with project deadlines.",
             ],
         },
         {
