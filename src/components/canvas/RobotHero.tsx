@@ -98,7 +98,7 @@ const RobotModel = ({ scale = 0.01, onLoaded }) => {
     const baseY = -1.35; // Position on top of pedestal (pedestal is at -1.5)
 
     // Load the FBX model
-    const fbx = useLoader(FBXLoader, "/source/Orange black sci fi unit2 rigged and animated.fbx");
+    const fbx = useLoader(FBXLoader, "/source/orange-unit.fbx");
 
     // Load textures
     const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
